@@ -14,12 +14,17 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUsersParamDto } from './dto/get-users-param.dto';
 import { PatchUserDto } from './dto/patch-user.dto';
+import { UsersService } from './providers/users.service';
 
 /**
  * Controller for handling user-related HTTP requests.
  */
 @Controller('users')
 export class UsersController {
+  constructor(
+    // Injecting users service
+    private readonly usersService: UsersService,
+  ) {}
   /**
    * Handles a GET request to retrieve user data.
    *
@@ -38,8 +43,7 @@ export class UsersController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
   ) {
-    console.log(getUsersParamDto, limit, page);
-    return 'You sent a GET request to the users endpoint';
+    return this.usersService.findAll(getUsersParamDto, limit, page);
   }
 
   /**
