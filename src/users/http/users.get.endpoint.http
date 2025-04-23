@@ -1,5 +1,5 @@
 ## Get Request for USERS Controller
 
-GET http://localhost:3000/users
+GET http://localhost:3000/users/1234
 ?limit=asdsa
 &offset=20
