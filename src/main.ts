@@ -1,14 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 /**
  * Bootstraps the NestJS application.
- * 
+ *
  * This function initializes the NestJS application using the `AppModule`,
  * applies global validation pipes to handle input validation across all routes,
  * and starts the application on the specified port (from environment variable or defaults to 3000).
- * 
+ *
  * Global ValidationPipe options:
  * - `whitelist`: Removes any properties not defined in the DTOs.
  * - `forbidNonWhitelisted`: Throws an error if non-whitelisted properties are present.
@@ -27,6 +28,14 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  /*
+   *Swagger configuration
+   */
+
+  const config = new DocumentBuilder().setVersion('1.0').build();
+  // Instanstiate  Document
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document);
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
