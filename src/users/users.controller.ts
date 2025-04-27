@@ -88,8 +88,8 @@ export class UsersController {
     @Headers() headers: any,
     @Ip() ip: string,
   ) {
-    console.log(createUserDto, headers, ip);
-    return 'You sent a POST request to the users endpoint';
+    
+    return this.usersService.createUser(createUserDto);
   }
 
   /**
