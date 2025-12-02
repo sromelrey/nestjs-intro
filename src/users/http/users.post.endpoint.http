@@ -1,6 +1,6 @@
 ## POST Request for USERS Controller
 
-POST http://localhost:3000/users
+POST http://localhost:4080/users
 Content-Type: application/json
 
 {

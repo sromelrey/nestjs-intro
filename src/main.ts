@@ -34,15 +34,15 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Nest JS Intro')
-    .setDescription('Use the base API URL as http://localhost:3000')
-    .setTermsOfService('http://localhost:3000/terms-of-service')
+    .setDescription('Use the base API URL as http://localhost:4080')
+    .setTermsOfService('http://localhost:4080/terms-of-service')
     .setLicense('MIT License', '')
-    .addServer('http://localhost:3000')
+    .addServer('http://localhost:4080')
     .setVersion('1.0')
     .build();
   // Instanstiate  Document
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 4080);
 }
 bootstrap();

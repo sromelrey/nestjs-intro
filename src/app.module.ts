@@ -1,35 +1,40 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
-import { PostsService } from './posts/providers/posts.service';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
-import { Post } from './posts/post.entity';
+import { TagsModule } from './tags/tags.module';
+import { MetaOptionsModule } from './meta-options/meta-options.module';
 
 @Module({
   imports: [
-    UsersModule,
-    PostsModule,
-    AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRootAsync({
       imports: [],
       inject: [],
       useFactory: () => ({
         type: 'postgres',
-        entities: [User, Post],
+        autoLoadEntities: true,
         synchronize: true,
-        port: 5432,
-        username: 'postgres',
-        password: 'password',
-        host: 'localhost',
-        database: 'nestjs-blog',
-      }),
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+      })
     }),
+    UsersModule,
+    PostsModule,
+    AuthModule,
+    TagsModule,
+    MetaOptionsModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PostsService],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

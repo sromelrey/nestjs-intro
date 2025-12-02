@@ -1,13 +1,18 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PostsController } from './posts.controller';
 import { PostsService } from './providers/posts.service';
 import { UsersModule } from 'src/users/users.module';
 import { Post } from './post.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MetaOption } from 'src/meta-options/meta-option.entity';
 
 @Module({
+  imports: [
+    TypeOrmModule.forFeature([Post, MetaOption]),
+    forwardRef(() => UsersModule),
+  ],
   controllers: [PostsController],
   providers: [PostsService],
-  imports: [UsersModule, TypeOrmModule.forFeature([Post])],
+  exports: [PostsService],
 })
-export class PostsModule {}
+export class PostsModule { }

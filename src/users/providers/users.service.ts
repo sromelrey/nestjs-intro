@@ -21,9 +21,15 @@ export class UsersService {
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
 
+    /**
+     * Injects the TypeORM repository for User entities.
+     * Provides database access methods for CRUD operations on users.
+     *
+     * @param usersRepository - The User entity repository instance.
+     */
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) { }
 
   public async createUser(@Body() createUserDto: CreateUserDto) {
     // Check is user exists with same email
